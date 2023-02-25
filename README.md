@@ -4,6 +4,8 @@ A course platform management API.
 Project to study Python and Django Rest Framework.
 
 - With some tests
+- Authentication and authorization with django-admin
+- Search filters with django-filters
 
 # UML diagram
 

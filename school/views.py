@@ -3,6 +3,10 @@ from rest_framework import viewsets, generics
 from school.models import Student, Teacher, Course, Registration
 from school.serializer import StudentSerializer, StudentSerializerV2, TeacherSerializer, TeacherSerializerV2, CourseSerializer, RegistrationSerializer, ListRegistrationsStudentSerializer, ListEnrolledStudentsSerializer
 
+#filters
+from rest_framework.filters import OrderingFilter, SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
 #authentication and authorization
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -14,6 +18,9 @@ from django.views.decorators.cache import cache_page
 class StudentsViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter,SearchFilter]
+    ordering_fields = ['name']
+    search_fields = ['name', 'cpf', 'identifier']
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -29,6 +36,9 @@ class StudentsViewSet(viewsets.ModelViewSet):
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter,SearchFilter]
+    ordering_fields = ['name']
+    search_fields = ['name', 'cpf', 'identifier']
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -43,12 +53,17 @@ class TeacherViewSet(viewsets.ModelViewSet):
 class CoursesViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter,SearchFilter]
+    ordering_fields = ['course_code']
+    search_fields = ['course_code']
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
     
 class RegistrationViewSet(viewsets.ModelViewSet):
     queryset = Registration.objects.all()
     serializer_class = RegistrationSerializer
+    filter_backends = [DjangoFilterBackend, OrderingFilter,SearchFilter]
+
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 

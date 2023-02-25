@@ -1,7 +1,7 @@
 from django.test import TestCase
 from school.models import Student, Teacher, Course, Registration
 
-class TeacherModelTestCase(TestCase):
+class ModelsTestCase(TestCase):
 
     def setUp(self):
         self.student = Student(

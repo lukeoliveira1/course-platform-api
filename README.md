@@ -6,6 +6,7 @@ Project to study Python and Django Rest Framework.
 - With some tests
 - Authentication and authorization with django-admin
 - Search filters with django-filters
+- API documentation with Swagger.
 
 # UML diagram
 

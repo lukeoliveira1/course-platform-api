@@ -3,6 +3,10 @@ from rest_framework import viewsets, generics
 from school.models import Student, Teacher, Course, Registration
 from school.serializer import StudentSerializer, StudentSerializerV2, TeacherSerializer, TeacherSerializerV2, CourseSerializer, RegistrationSerializer, ListRegistrationsStudentSerializer, ListEnrolledStudentsSerializer
 
+#authentication and authorization
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 #caching
 from django.utils.decorators import method_decorator 
 from django.views.decorators.cache import cache_page
@@ -10,6 +14,8 @@ from django.views.decorators.cache import cache_page
 class StudentsViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.version == 'v2':
@@ -23,6 +29,8 @@ class StudentsViewSet(viewsets.ModelViewSet):
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.request.version == 'v2':
@@ -35,17 +43,24 @@ class TeacherViewSet(viewsets.ModelViewSet):
 class CoursesViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     
 class RegistrationViewSet(viewsets.ModelViewSet):
     queryset = Registration.objects.all()
     serializer_class = RegistrationSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
 class ListRegistrationsStudentViewSet(generics.ListAPIView):
     """listing every student enrollment"""
     def get_queryset(self):
         queryset = Registration.objects.filter(student_id=self.kwargs['pk'])
         return queryset
+    
     serializer_class = ListRegistrationsStudentSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     #caching
     @method_decorator(cache_page(20)) 
@@ -58,6 +73,8 @@ class ListEnrolledStudentsViewSet(generics.ListAPIView):
         queryset = Registration.objects.filter(course_id=self.kwargs['pk'])
         return queryset
     serializer_class = ListEnrolledStudentsSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     #caching
     @method_decorator(cache_page(20)) 

@@ -6,7 +6,31 @@ from school.validators import cpf_valid, identifier_valid
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
+        fields = ['id', 'name', 'identifier', 'cpf', 'date_of_birth']
+
+    def validate(self, data):
+        if not cpf_valid(data['cpf']):
+            raise serializers.ValidationError({'cpf':"O CPF deve ter 11 dígitos"})
+        if not identifier_valid(data['identifier']):
+            raise serializers.ValidationError({'identifier':"O RG deve conter 9 dígitos"})
+        return data
+
+class StudentSerializerV2(serializers.ModelSerializer):
+    class Meta:
+        model = Student
         fields = '__all__'
+    
+    def validate(self, data):
+        if not cpf_valid(data['cpf']):
+            raise serializers.ValidationError({'cpf':"O CPF deve ter 11 dígitos"})
+        if not identifier_valid(data['identifier']):
+            raise serializers.ValidationError({'identifier':"O RG deve conter 9 dígitos"})
+        return data
+
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = ['id', 'name', 'identifier', 'cpf', 'date_of_birth']
 
     def validate(self, data):
         if not cpf_valid(data['cpf']):
@@ -15,7 +39,7 @@ class StudentSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'identifier':"O RG deve conter 9 dígitos"})
         return data
     
-class TeacherSerializer(serializers.ModelSerializer):
+class TeacherSerializerV2(serializers.ModelSerializer):
     class Meta:
         model = Teacher
         fields = '__all__'

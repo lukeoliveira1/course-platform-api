@@ -1,7 +1,7 @@
 from rest_framework import viewsets, generics
 
 from school.models import Student, Teacher, Course, Registration
-from school.serializer import StudentSerializer, TeacherSerializer, CourseSerializer, RegistrationSerializer, ListRegistrationsStudentSerializer, ListEnrolledStudentsSerializer
+from school.serializer import StudentSerializer, StudentSerializerV2, TeacherSerializer, TeacherSerializerV2, CourseSerializer, RegistrationSerializer, ListRegistrationsStudentSerializer, ListEnrolledStudentsSerializer
 
 #caching
 from django.utils.decorators import method_decorator 
@@ -11,9 +11,26 @@ class StudentsViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
+    def get_serializer_class(self):
+        if self.request.version == 'v2':
+            #students/?version=v2 
+            return StudentSerializerV2
+        else:
+            #students/?version=v1
+            return StudentSerializer
+
+
 class TeacherViewSet(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
+
+    def get_serializer_class(self):
+        if self.request.version == 'v2':
+            #teachers/?version=v2 
+            return TeacherSerializerV2
+        else:
+            #teachers/?version=v1
+            return TeacherSerializer
     
 class CoursesViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()

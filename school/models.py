@@ -5,6 +5,7 @@ class Person(models.Model):
     identifier = models.CharField(max_length=9)
     cpf = models.CharField(max_length=11)
     date_of_birth = models.DateField()
+    photo = models.ImageField(blank=True)
 
     class Meta:
       abstract = True

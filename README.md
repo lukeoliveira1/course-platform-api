@@ -1,5 +1,5 @@
 # school-api
-A course platform management API.
+An API to manage the course platform.
 
 Project to study Python and Django Rest Framework.
 
